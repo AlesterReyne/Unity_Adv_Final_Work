@@ -1,13 +1,17 @@
+using Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float sampleDistance;
-    [SerializeField] private LayerMask groundLayer;
+
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private LayerMask groundLayer;
+
     [SerializeField] private Camera mainCamera;
 
     private void Start()
@@ -15,7 +19,15 @@ public class PlayerController : MonoBehaviour
         agent.speed = moveSpeed;
     }
 
-    private void OnMove()
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            HandleMovement();
+        }
+    }
+
+    private void HandleMovement()
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
@@ -30,5 +42,27 @@ public class PlayerController : MonoBehaviour
                     $"Ray hit {hit.collider.name} at {hit.point}, but no NavMesh was found within {sampleDistance} units.");
         }
         else Debug.Log("Raycast didn't hit anything on the ground layer.");
+    }
+
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GetClickedObject();
+        }
+    }
+
+    private void GetClickedObject()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray.origin, ray.direction, out var hit, Mathf.Infinity))
+        {
+            GameObject target = hit.collider.gameObject;
+
+            if (target.TryGetComponent(out IInteractable interactable))
+            {
+                EventHandler.OnTargetChangedAction.Invoke(target);
+            }
+        }
     }
 }
