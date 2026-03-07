@@ -41,11 +41,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3398877910135355088}
-  - component: {fileID: 6024710116147074316}
-  - component: {fileID: 1903023721108816624}
+  - component: {fileID: 4236358783254755207}
   - component: {fileID: 4941059983345832770}
   - component: {fileID: 500111649114675228}
   - component: {fileID: 2715744714689825599}
+  - component: {fileID: 6024710116147074316}
+  - component: {fileID: 980491404768240217}
+  - component: {fileID: -7920028753164831355}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -69,37 +71,28 @@ Transform:
   - {fileID: 814989219091861295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6024710116147074316
-MonoBehaviour:
+--- !u!195 &4236358783254755207
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5567892339941501148}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf2c6fa4315f71b489d4b238506f1d4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  currentHealth: 0
-  enemySo: {fileID: 11400000, guid: 4e14a0a03292dfc419876bcf2b055ce1, type: 2}
-  selectedAura: {fileID: 4497710928023795686}
---- !u!208 &1903023721108816624
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5567892339941501148}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!33 &4941059983345832770
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -180,6 +173,76 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6024710116147074316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567892339941501148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf2c6fa4315f71b489d4b238506f1d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  currentHealth: 0
+  selectedAura: {fileID: 4497710928023795686}
+  player: {fileID: 5062736826894504643, guid: 82619c79974f5cc41904ecb7cb3d38d1, type: 3}
+  agent: {fileID: 4236358783254755207}
+  enemySo: {fileID: 11400000, guid: 4e14a0a03292dfc419876bcf2b055ce1, type: 2}
+  enemyType: 2
+--- !u!114 &980491404768240217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567892339941501148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c581f5f6a618e3a4fbc5bbb91699f20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  agent: {fileID: 4236358783254755207}
+  player: {fileID: 7797436064808894379, guid: 82619c79974f5cc41904ecb7cb3d38d1, type: 3}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 0
+  timeBetweenAttacks: 0
+  sightRange: 0
+  attackRange: 0
+  walkPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &-7920028753164831355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567892339941501148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa7945fc0afd6e4fb60b731b9fd6f63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FieldOfView
+  radius: 5
+  angle: 90
+  player: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 256
+  canSeePlayer: 0
 --- !u!1 &7165547766171770300
 GameObject:
   m_ObjectHideFlags: 0
